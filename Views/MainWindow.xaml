@@ -1,0 +1,72 @@
+﻿<Window x:Class="iRacingFriendlist.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:classes="clr-namespace:iRacingFriendlist.Classes"
+        xmlns:kb="clr-namespace:Kent.Boogaart.Windows.Controls;assembly=Kent.Boogaart.Windows.Controls"
+        Title="iRacing Friend List" 
+        Height="{classes:SettingBinding Height}" 
+        Width="{classes:SettingBinding Width}"  
+        Top="{classes:SettingBinding Top}" 
+        Left="{classes:SettingBinding Left}"  
+        Style="{DynamicResource MainWindowStyle}" 
+        Icon="../Resources/icon_48.png"
+        Background="Black" 
+        TextOptions.TextFormattingMode="Display" TextOptions.TextHintingMode="Fixed" TextOptions.TextRenderingMode="ClearType">
+    
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Styles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <DockPanel Margin="0,5,0,-5">
+            <Button x:Name="btnSettings" DockPanel.Dock="Right" Style="{StaticResource ButtonStyle}" Width="30" Height="30" Margin="5" Click="OnSettingsClicked">
+                <Image Source="..\Resources\wrench.png"></Image>
+            </Button>
+            <TextBox x:Name="txtFilter" Style="{StaticResource FilterTextbox}" Height="30" Margin="5,0,0,0" TextChanged="txtFilter_TextChanged"></TextBox>
+        </DockPanel>
+
+        <ListBox x:Name="lst" Grid.Row="1" Margin="5" Style="{StaticResource FriendboxStyle}" SelectionChanged="lst_SelectionChanged" MouseRightButtonUp="lst_MouseRightButtonUp">
+        </ListBox>
+
+            <Popup Name="notePopup" 
+               IsOpen="False" 
+               StaysOpen="False" 
+               Placement="Mouse">
+            <kb:Resizer 
+               Width="{classes:SettingBinding NotePopupWidth}" 
+               Height="{classes:SettingBinding NotePopupHeight}">
+                <Border Background="{StaticResource WindowBackgroundBrush}"
+                    BorderBrush="{StaticResource Separator}" BorderThickness="1">
+
+                    <DockPanel >
+                        <TextBlock Text="{Binding Name}" 
+                               FontSize="{classes:FontSizeBinding ConverterParameter='large'}" 
+                               Foreground="White" Margin="5"
+                               DockPanel.Dock="Top"/>
+                        <TextBox Name="popupText"
+                             Style="{StaticResource TextboxStyle}" 
+                             Margin="5"
+                                 TextWrapping="Wrap"
+                             AcceptsReturn="True" AcceptsTab="True"
+                             Text="{Binding NoteText, Mode=TwoWay}" TextChanged="popupText_TextChanged"/>
+                    </DockPanel>
+                </Border>
+            </kb:Resizer>
+        </Popup>
+
+        <DockPanel Grid.Row="2">
+            <TextBlock DockPanel.Dock="Left" x:Name="lblLoading" Text="Loading..." FontSize="{classes:FontSizeBinding}" Foreground="White" HorizontalAlignment="Left" Margin="5,0,5,5"></TextBlock>
+
+            <TextBlock Text="© Nick Thissen" Foreground="{StaticResource Separator}" FontSize="{classes:FontSizeBinding}" HorizontalAlignment="Right" Margin="5,2,5,5"></TextBlock>
+        </DockPanel>
+    </Grid>
+</Window>

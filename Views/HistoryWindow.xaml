@@ -1,0 +1,55 @@
+﻿<Window x:Class="iRacingFriendlist.Views.HistoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Classes="clr-namespace:iRacingFriendlist.Classes"
+        Title="Status Update History" Height="308" Width="527" Background="Black" Style="{DynamicResource MainWindowStyle}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Styles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Bottom"  Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="btnClear" Style="{StaticResource ButtonStyle}" Content="Clear" Margin="5" Click="btnClear_Click"></Button>
+            <Button x:Name="btnClose" Style="{StaticResource ButtonStyle}" Content="Close" Margin="5" Click="btnClose_Click"></Button>
+        </StackPanel>
+        
+        <Grid>
+            <DataGrid Name="grid" Margin="5" Background="Transparent" AutoGenerateColumns="False" Style="{StaticResource DataGridStyle}" CanUserResizeRows="False" SelectionMode="Single">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Time" Binding="{Binding TimeDisplay}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Friend" Binding="{Binding Driver.Name}"></DataGridTextColumn>
+                    <DataGridTemplateColumn Header="From status">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type Classes:OnlineStatusUpdate}">
+                                <Border Name="border" 
+                                        Background="{Binding From, Converter={StaticResource ColorConverter}}"
+                                        HorizontalAlignment="Stretch">
+                                    <TextBlock Text="{Binding FromDisplay}"
+                                               HorizontalAlignment="Center"
+                                               Foreground="Black"/>
+                                </Border>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="To status">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type Classes:OnlineStatusUpdate}">
+                                <Border Name="border" 
+                                        Background="{Binding To, Converter={StaticResource ColorConverter}}"
+                                        HorizontalAlignment="Stretch">
+                                    <TextBlock Text="{Binding ToDisplay}"
+                                               HorizontalAlignment="Center"
+                                               Foreground="Black"/>
+                                </Border>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Session details" Binding="{Binding SessionDisplay}" Width="*"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </DockPanel>
+</Window>
